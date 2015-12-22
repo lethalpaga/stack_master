@@ -7,7 +7,11 @@ module StackMaster
       end
 
       def resolve(value)
-        security_group_finder.find(value)
+        sg_list = Array(value).map do |sg_name|
+          security_group_finder.find(sg_name)
+        end
+
+        value.is_a?(Array) ? sg_list : sg_list.first
       end
 
       private

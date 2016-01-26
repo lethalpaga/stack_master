@@ -5,7 +5,11 @@ module StackMaster
       answer = if ENV['STUB_AWS']
         ENV['ANSWER']
       else
-        STDIN.getch.chomp
+        begin
+          STDIN.getch.chomp
+        rescue Errno::ENOTTY
+          ENV['ANSWER'] || 'y'
+        end
       end
       StackMaster.stdout.puts
       answer == 'y'

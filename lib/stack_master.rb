@@ -52,6 +52,8 @@ require "stack_master/cli"
 module StackMaster
   extend self
 
+  attr_accessor :interactive
+
   def base_dir
     File.expand_path(File.join(File.dirname(__FILE__), ".."))
   end
@@ -78,6 +80,10 @@ module StackMaster
 
   def stderr=(io)
     @stderr = io
+  end
+
+  def default_answer
+    ENV['ANSWER'] || 'y'
   end
 end
 

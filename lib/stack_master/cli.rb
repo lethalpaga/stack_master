@@ -9,6 +9,7 @@ module StackMaster
       Commander::Runner.instance_variable_set('@singleton', Commander::Runner.new(argv))
       StackMaster.stdout = @stdout
       StackMaster.stderr = @stderr
+      StackMaster.interactive = true
       TablePrint::Config.io = StackMaster.stdout
     end
 
@@ -18,6 +19,10 @@ module StackMaster
       program :description, 'AWS Stack Management'
 
       global_option '-c', '--config FILE', 'Config file to use'
+      global_option '-f', '--force', 'Run in non-interactive mode, all prompts will be answered positively by default or according to the ANSWER environment variable' do
+        ENV['ANSWER'] ||= 'y'
+        StackMaster.interactive = false
+      end
 
       command :apply do |c|
         c.syntax = 'stack_master apply [region_or_alias] [stack_name]'
